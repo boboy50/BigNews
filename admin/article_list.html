@@ -187,6 +187,33 @@
 
             }
 
+
+             /*4.删除 ：  */
+
+             $('.table>tbody').on('click','.delete', function() {
+                var id = $(this).attr('data-id');
+                $.ajax({
+                    url:BigNew.article_delete,
+                    type:'get',
+                    dataType:'json',
+                    data: {
+                        id: id
+                    },
+                    success: function(backData){
+                        if(backData.code == 204){
+                            alert('删除成功');
+                            window.location.reload();
+                        }
+                    }
+                });
+             });
+            /* 5.编辑 ： a标签href跳转（页面间传参） */
+
+            
+            /* 6.发布 ： a标签href跳转 */
+             $('#release_btn').click(function() {
+                 $('.level02>li:eq(1)',window.parent.document).trigger('click');
+             })
         });
     </script>
 </body>
