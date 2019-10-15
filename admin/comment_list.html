@@ -173,11 +173,11 @@
       <td>{{ v.state }}</td>
       <td class="text-center">
         {{ if v.state == '已通过' }}
-        <a href="javascript:void(0);;" id="{{ v.id }}" class="btn btn-warning btn-xs">拒绝</a>
-        {{ else if v.state == '待审核' }} v
-        <a href="javascript:void(0);;" id="{{ v.id }}" class="btn btn-info btn-xs">批准</a>
+        <a href="javascript:void(0);;"data-id="{{ v.id }}" class="btn btn-warning btn-xs btn-reject">拒绝</a>
+        {{ else if v.state == '待审核' }}
+        <a href="javascript:void(0);;" data-id="{{ v.id }}" class="btn btn-info btn-xs btn-pass">批准</a>
         {{ /if }}
-        <a href="javascript:void(0);;" id="{{ v.id }}" class="btn btn-danger btn-xs">删除</a>
+        <a href="javascript:void(0);;" data-id="{{ v.id }}" class="btn btn-danger btn-xs btn-delete">删除</a>
       </td>
     </tr>
     {{ /each }}
@@ -286,9 +286,59 @@
       通过 拒绝 删除
       注意点: ajax动态添加的元素,需要注册委托事件
       */
-     //点击通过按钮
+    //点击批准按钮  ajax发送请求
+    $('.table>tbody').on('click','.btn-pass',function() {
+        $.ajax({
+          url:BigNew.comment_delete,
+          type:'post',
+          dataType:'json',
+          data:{
+            id: $(this).attr('data-id')
+          },
+          success: function(backData){
+            if(backData.code == 200 ) {
+              alert('批准成功');
+              window.location.reload();
+            }
+          }
+        });
+      })
+
      //点击拒绝按钮  ajax发送请求
-      
+      $('.table>tbody').on('click','.btn-reject',function() {
+        $.ajax({
+          url:BigNew.comment_reject,
+          type:'post',
+          dataType:'json',
+          data:{
+            id: $(this).attr('data-id')
+          },
+          success: function(backData){
+            if(backData.code == 200 ) {
+              alert('拒绝成功');
+              window.location.reload();
+            }
+          }
+        });
+      })
+
+       //点击删除按钮  ajax发送请求
+       $('.table>tbody').on('click','.btn-delete',function() {
+        $.ajax({
+          url:BigNew.comment_delete,
+          type:'post',
+          dataType:'json',
+          data:{
+            id: $(this).attr('data-id')
+          },
+          success: function(backData){
+            if(backData.code == 200 ) {
+              alert('删除成功');
+              window.location.reload();
+            }
+          }
+        });
+      })
     });
   </script>
 </body>
